@@ -24,7 +24,7 @@ export const store = new Vuex.Store({
           start: '2/5/2018'
         },
         detail: '3วัน 5 คืน',
-        img: 'https://www.google.co.th/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiGqKTYhOfaAhXHRo8KHVG4BfAQjRx6BAgBEAU&url=https%3A%2F%2Fsites.google.com%2Fa%2Femail.nu.ac.th%2Fwathnthrrm-meiy-nmar%2Fkhwam-ru-thawpi-keiyw-kab-phma&psig=AOvVaw0CixH7hl9lXPRV2ho9h_wp&ust=1525350786840043',
+        img: 'http://www.vertierra.com/blog/wp-content/uploads/2015/05/shwedagon-pagoda-666763_640.jpg',
         name: 'พม่า',
         price: 5000
       }
@@ -44,12 +44,15 @@ export const store = new Vuex.Store({
       var tours = {}
       toursRef.on('value', function (snapshot) {
         tours = snapshot.val()
+        context.commit('setTours', tours)
       },
       function (error) {
         console.log('Error: ' + error.code)
       })
-      // context.commit('setTours', tours)
       console.log(tours)
+    },
+    saveProductFi (context, data) {
+      toursRef.push(data)
     }
   }
 })
