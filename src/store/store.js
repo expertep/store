@@ -49,10 +49,21 @@ export const store = new Vuex.Store({
       function (error) {
         console.log('Error: ' + error.code)
       })
-      console.log(tours)
     },
     saveProductFi (context, data) {
       toursRef.push(data)
+    },
+    deleteProductFi (context, id) {
+      toursRef.child(id).set(null)
+    },
+    editProductFi (context, data) {
+      var tmp = {
+        name: data.name,
+        url: data.url,
+        price: data.price,
+        desc: data.desc
+      }
+      toursRef.child(data.editId).set(tmp)
     }
   }
 })
