@@ -63,7 +63,7 @@ export const store = new Vuex.Store({
         price: data.price,
         desc: data.desc
       }
-      toursRef.child(data.editId).set(tmp)
+      toursRef.child(data.id).set(tmp)
     }
   }
 })

@@ -23,8 +23,12 @@
         </div>
       </div>
     </nav>
+    <div class="columns" v-for="(tour, key) in tours" :key="tour['.key']">
+      <div class="column is-hidden-mobile">
+      </div>
 
-      <div class="card" v-for="(tour, key) in tours" :key="tour['.key']">
+      <div class="column">
+        <div class="card">
         <div class="card-image">
           <figure class="image is-256x256">
             <img :src="tour.url">
@@ -32,25 +36,26 @@
         </div>
         <div class="card-content">
           <p class="title is-1">
-            “{{tour.name}}”<br>
+            “ {{tour.name}} ”<br>
           </p>
           <p class="subtitle">
             {{tour.desc}}<br> <b>{{tour.price}} บาท</b>
           </p>
         </div>
-        <footer class="card-footer">
+        <a href="#" @click="addCart(tour,key)">
+        <footer class="card-footer footbg">
           <p class="card-footer-item">
-            <span>
-              <a href="#">{{tour.name}}</a>
+            <span class="is-Light">
+              Booking
             </span>
           </p>
-          <p class="card-footer-item">
-            <span>
-              <a href="#" @click="addCart(tour,key)">Booking now</a>
-            </span>
-          </p>
-        </footer>
+        </footer></a>
+        </div>
       </div>
+      <div class="column is-hidden-mobile">
+      </div>
+    </div>
+
       <div class="modal is-active" v-if="flag">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -77,7 +82,7 @@
             </div>
             <div class="field">
               <div class="control">
-                <input class="input" type="text" v-model="desc" placeholder="รายละเอียด">
+                <textarea class="textarea" v-model="desc" placeholder="รายละเอียด"></textarea>
               </div>
             </div>
           </section>
@@ -105,8 +110,9 @@
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>{{tour.name}}</strong> <small>@{{key}}</small> <small>{{tour.price}}</small>
+                      <strong>{{tour.name}}</strong> <small>@{{key}}</small>
                       <br>
+                      <strong>{{tour.price}} ฿</strong><br>
                       {{tour.desc}}
                     </p>
                     <div  v-if="editId===key">
@@ -127,7 +133,7 @@
                       </div>
                       <div class="field">
                         <div class="control">
-                          <input class="input is-small" type="text" placeholder="Small input" v-model="desc">
+                          <textarea class="textarea is-small" v-model="desc"></textarea>
                         </div>
                       </div>
                     </div>
@@ -190,7 +196,7 @@
                   </nav>
                 </div>
                 <div class="media-right">
-                    <input class="input count" type="number" placeholder="Large input" v-model="carts[key].amount">
+                    <input class="input count" min="1" type="number" placeholder="Large input" v-model="carts[key].amount"> ที่นั่ง
                 </div>
               </article>
             </div>
@@ -228,7 +234,7 @@ export default {
       editId: '',
       name: '',
       url: '',
-      price: 0,
+      price: '',
       desc: '',
       carts: [],
       total: 0
@@ -243,6 +249,10 @@ export default {
     ]),
     clickAdd () {
       this.flag = !this.flag
+      this.name = ''
+      this.url = ''
+      this.price = 0
+      this.desc = ''
     },
     clickDel () {
       this.flag1 = !this.flag1
@@ -274,7 +284,7 @@ export default {
     booking () {
       var str = ''
       for (var i = 0; i < this.carts.length; i++) {
-        str += this.carts[i].name + '  จำนวน  ' + this.carts[i].amount + '\n'
+        str += this.carts[i].name + '  จำนวน  ' + this.carts[i].amount + ' ที่นั่ง\n'
       }
       swal({
         title: 'Booked',
@@ -304,6 +314,12 @@ export default {
         }
         this.carts.push(tmp)
       }
+      swal({
+        title: 'Finish',
+        text: 'add into your cart',
+        icon: 'success',
+        button: 'Ok'
+      })
     },
     editProduct () {
       var tmp = {
@@ -382,12 +398,18 @@ li {
   display: inline-block;
   margin: 0 0px;
 }
+.footbg:hover {
+  background-color: #00bb5e;
+}
 a {
-  color: #42b983;
+  color: #00bb5e;
+}
+.card-footer:hover {
+  color:white;
 }
 .card-content {
   /* height: 30rem !important; */
 }
-.card {margin-bottom: 2rem;}
+.card {margin-bottom: 1.5rem;}
 .count {width: 50%;}
 </style>
